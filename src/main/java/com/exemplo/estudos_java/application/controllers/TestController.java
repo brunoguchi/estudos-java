@@ -2,16 +2,15 @@ package com.exemplo.estudos_java.application.controllers;
 
 import com.exemplo.estudos_java.application.dtos.TestDto;
 import com.exemplo.estudos_java.application.dtos.TestForMongoDto;
+import com.exemplo.estudos_java.application.dtos.TestMessageDto;
+import com.exemplo.estudos_java.application.services.MessageSenderService;
 import com.exemplo.estudos_java.application.services.MyCacheService;
 import com.exemplo.estudos_java.application.services.MyHandlerService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
@@ -23,6 +22,15 @@ public class TestController {
 
     @Autowired
     private MyCacheService cacheService;
+
+    @Autowired
+    private MessageSenderService messageSenderService;
+
+    @PostMapping("/send-message")
+    public String sendMessage(@RequestBody TestMessageDto dto) {
+        messageSenderService.sendMessage(dto.getQueueName(), dto.getMessage());
+        return "Mensagem enviada para a fila: " + dto.getQueueName();
+    }
 
     @PostMapping("/save")
     public ResponseEntity<TestDto> sendMessage(@RequestBody @Valid TestDto dto) {

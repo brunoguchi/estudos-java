@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: estudos-java-local
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: mydatabase
+    redis:
+      host: localhost
+      port: 6379
+azure:
+  servicebus:
+    connection-string: <dev-connection-string>
+    queueName1: queue1
+    queueName2: queue2

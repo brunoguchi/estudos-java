@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: estudos-java-dev
+  data:
+    mongodb:
+      host: dev.mongodb.server
+      port: 27017
+      database: dev-database
+    redis:
+      host: dev.redis.server
+      port: 6379
+azure:
+  servicebus:
+    connection-string: <dev-connection-string>
+    queueName1: dev-queue1
+    queueName2: dev-queue2
