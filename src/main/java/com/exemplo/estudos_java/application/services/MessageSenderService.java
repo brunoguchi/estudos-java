@@ -4,7 +4,6 @@ import com.azure.messaging.servicebus.ServiceBusClientBuilder;
 import com.azure.messaging.servicebus.ServiceBusMessage;
 import com.azure.messaging.servicebus.ServiceBusSenderClient;
 import com.exemplo.estudos_java.config.ServiceBusProperties;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -14,12 +13,9 @@ public class MessageSenderService {
     @Autowired
     private ServiceBusProperties serviceBusProperties;
 
-    @Value("${azure.servicebus.connection-string}")
-    private String connectionString;
-
     public void sendMessage(String queueName, String messageContent) {
         try (ServiceBusSenderClient senderClient = new ServiceBusClientBuilder()
-                .connectionString(connectionString)
+                .connectionString(serviceBusProperties.getConnectionString())
                 .sender()
                 .queueName(queueName)
                 .buildClient()) {
