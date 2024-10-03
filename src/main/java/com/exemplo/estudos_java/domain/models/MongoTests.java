@@ -14,4 +14,5 @@ public class MongoTests {
     private ObjectId id;
     private String identify;
     private String nome;
+    private String description;
 }

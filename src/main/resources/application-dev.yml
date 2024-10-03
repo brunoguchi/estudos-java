@@ -14,3 +14,8 @@ azure:
     connection-string: <dev-connection-string>
     queueName1: dev-queue1
     queueName2: dev-queue2
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health

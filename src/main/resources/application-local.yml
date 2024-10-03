@@ -1,3 +1,6 @@
+logging:
+  level:
+    io.mongock: DEBUG
 spring:
   application:
     name: estudos-java-local
@@ -6,11 +9,22 @@ spring:
       host: localhost
       port: 27017
       database: mydatabase
+      uri: mongodb://localhost:27017/mydatabase
     redis:
       host: localhost
       port: 6379
 azure:
   servicebus:
-    connection-string: <dev-connection-string>
-    queueName1: queue1
+    connection-string: <string_connection_aqui>
+    queueName1: test-db1-noguchi-corequeueupdatestock
     queueName2: queue2
+myapp:
+  timer:
+    interval: 5000
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+mongock:
+  change-logs-scan-package: com.exemplo.estudos_java.infra.db.migrations

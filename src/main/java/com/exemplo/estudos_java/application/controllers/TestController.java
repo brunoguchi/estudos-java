@@ -3,9 +3,9 @@ package com.exemplo.estudos_java.application.controllers;
 import com.exemplo.estudos_java.application.dtos.TestDto;
 import com.exemplo.estudos_java.application.dtos.TestForMongoDto;
 import com.exemplo.estudos_java.application.dtos.TestMessageDto;
+import com.exemplo.estudos_java.application.interfaces.MyHandlerService;
 import com.exemplo.estudos_java.application.services.MessageSenderService;
 import com.exemplo.estudos_java.application.services.MyCacheService;
-import com.exemplo.estudos_java.application.services.MyHandlerService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -38,9 +38,15 @@ public class TestController {
     }
 
     @PostMapping("/save-mongodb")
-    public String saveDto(@RequestBody TestForMongoDto testForMongoDto) {
-        handlerService.handle(testForMongoDto);
-        return "DTO processed and saved!";
+    public ResponseEntity<String> saveDto(@RequestBody TestForMongoDto testForMongoDto) {
+        try {
+            handlerService.handleAsyncGet().get(); // Async GET precisa estar encapsulado por try/catch pois emite exceções
+        } catch (Exception e) {
+            System.out.print(e.getMessage());
+        }
+
+        handlerService.handleAsyncJoin().join(); // Async JOIN é igual o GET porém não emite exceções
+        return handlerService.handle(testForMongoDto);
     }
 
     @GetMapping("/get-all")
