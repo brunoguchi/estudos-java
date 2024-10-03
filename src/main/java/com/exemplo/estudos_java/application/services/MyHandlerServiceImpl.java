@@ -1,7 +1,7 @@
 package com.exemplo.estudos_java.application.services;
 
 import com.exemplo.estudos_java.application.dtos.TestForMongoDto;
-import com.exemplo.estudos_java.application.exceptions.InternalErrorException;
+import com.exemplo.estudos_java.application.exceptions.ForbiddenException;
 import com.exemplo.estudos_java.application.exceptions.NotFoundException;
 import com.exemplo.estudos_java.application.interfaces.MyHandlerService;
 import com.exemplo.estudos_java.domain.models.MongoTests;
@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -30,8 +29,8 @@ public class MyHandlerServiceImpl implements MyHandlerService {
         if (myDTO.getIdentify().equals("404"))
             throw new NotFoundException(myDTO.getIdentify());
 
-        if (myDTO.getIdentify().equals("500"))
-            throw new InternalErrorException(myDTO.getIdentify());
+        if (myDTO.getIdentify().equals("403"))
+            throw new ForbiddenException(myDTO.getIdentify());
 
         var model = new MongoTests();
         model.setIdentify(myDTO.getIdentify());

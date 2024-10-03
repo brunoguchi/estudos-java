@@ -51,18 +51,14 @@ public class TestController {
 
     @GetMapping("/get-all")
     public String getAllFromMongo() {
-        try {
-            Optional<String> cachedModels = cacheService.getModelsFromCache();
+        Optional<String> cachedModels = cacheService.getModelsFromCache();
 
-            if (cachedModels.isPresent()) {
-                return cachedModels.get().trim();
-            }
-
-            var models = handlerService.getAllModels();
-            cacheService.cacheModels(models.getFirst().getIdentify(), 60);
-            return models.getFirst().getIdentify();
-        } catch (Exception e) {
-            return null;
+        if (cachedModels.isPresent()) {
+            return cachedModels.get().trim();
         }
+
+        var models = handlerService.getAllModels();
+        cacheService.cacheModels(models.getFirst().getIdentify(), 60);
+        return models.getFirst().getIdentify();
     }
 }

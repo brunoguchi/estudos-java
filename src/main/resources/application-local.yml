@@ -1,6 +1,3 @@
-logging:
-  level:
-    io.mongock: DEBUG
 spring:
   application:
     name: estudos-java-local
