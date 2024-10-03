@@ -26,5 +26,10 @@ management:
     web:
       exposure:
         include: health
+
+#mongock: // deprecated
+#  change-logs-scan-package: com.exemplo.estudos_java.infra.db.migrations
+
 mongock:
-  change-logs-scan-package: com.exemplo.estudos_java.infra.db.migrations
+  migration-scan-package:
+    - com.exemplo.estudos_java.infra.db.migrations

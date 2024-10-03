@@ -8,32 +8,26 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 
 @ChangeUnit(id = "createUsuariosCollection", order = "2", author = "Noguchi")
 public class CreateUsuariosCollectionMigration {
+    private final String collectionName = "usuario";
 
     @Execution
     public void execute(MongoTemplate mongoTemplate) {
-        // Verifica se a coleção "usuarios" existe
-        if (!mongoTemplate.collectionExists("usuarios")) {
-            // Cria a coleção "usuarios"
-            mongoTemplate.createCollection("usuarios");
-
-            // Insere 3 novos usuários
-            Document user1 = new Document("_id", new org.bson.types.ObjectId())
-                    .append("Name", "Alice Smith");
-            Document user2 = new Document("_id", new org.bson.types.ObjectId())
-                    .append("Name", "Bob Johnson");
-            Document user3 = new Document("_id", new org.bson.types.ObjectId())
-                    .append("Name", "Charlie Brown");
-
-            // Adiciona os usuários à coleção
-            mongoTemplate.insert(user1, "usuarios");
-            mongoTemplate.insert(user2, "usuarios");
-            mongoTemplate.insert(user3, "usuarios");
+        if (!mongoTemplate.collectionExists(collectionName)) {
+            mongoTemplate.createCollection(collectionName);
         }
+
+        mongoTemplate.insert(new Document("_id", new org.bson.types.ObjectId())
+                .append("name", "Alice Smith"), collectionName);
+
+        mongoTemplate.insert(new Document("_id", new org.bson.types.ObjectId())
+                .append("name", "Bob Johnson"), collectionName);
+
+        mongoTemplate.insert(new Document("_id", new org.bson.types.ObjectId())
+                .append("name", "Charlie Brown"), collectionName);
     }
 
     @RollbackExecution
     public void rollback(MongoTemplate mongoTemplate) {
-        // Remove a coleção "usuarios" caso seja necessário reverter
-        mongoTemplate.dropCollection("usuarios");
+        mongoTemplate.dropCollection(collectionName);
     }
 }
