@@ -10,9 +10,14 @@ spring:
     redis:
       host: localhost
       port: 6379
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB
+      max-request-size: 10MB
 azure:
   servicebus:
-    connection-string: <string_connection_aqui>
+    connection-string: XXX
     queueName1: test-db1-noguchi-corequeueupdatestock
     queueName2: queue2
 myapp:
