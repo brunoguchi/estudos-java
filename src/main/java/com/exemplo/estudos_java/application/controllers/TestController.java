@@ -5,9 +5,7 @@ import com.exemplo.estudos_java.application.interfaces.MyHandlerService;
 import com.exemplo.estudos_java.application.services.MessageSenderService;
 import com.exemplo.estudos_java.application.services.MyCacheService;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -15,7 +13,12 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.Optional;
+import java.util.Arrays;
+import java.util.List;
 
 @RestController
 @EnableMethodSecurity
@@ -101,6 +104,49 @@ public class TestController {
         System.out.println("DataTime: " + request.date());
         System.out.println("Foto: " + image.getOriginalFilename());
 
+        final long MAX_FILE_SIZE = 5 * 1024 * 1024; // 5 MB
+        final int MAX_WIDTH = 1920;  // Largura máxima
+        final int MAX_HEIGHT = 1080; // Altura máxima
+
+        // Validação do tamanho do arquivo
+        if (image.getSize() > MAX_FILE_SIZE) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("O arquivo deve ter no máximo 5 MB.");
+        }
+
+        // Verificar se o arquivo é uma imagem
+        String contentType = image.getContentType();
+        if (!isImage(contentType) || !isAllowedExtension(image.getOriginalFilename())) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("O arquivo enviado não é uma imagem válida.");
+        }
+
+        // Validação da resolução da imagem
+        try {
+            BufferedImage bufferedImage = ImageIO.read(image.getInputStream());
+            if (bufferedImage.getWidth() > MAX_WIDTH || bufferedImage.getHeight() > MAX_HEIGHT) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                        .body("A imagem deve ter no máximo 1920x1080 pixels.");
+            }
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("Erro ao ler a imagem: " + e.getMessage());
+        }
+
         return ResponseEntity.ok("Dados e imagem recebidos com sucesso.");
+    }
+
+    private boolean isImage(String contentType) {
+        return contentType != null && (contentType.startsWith("image/"));
+    }
+
+    private boolean isAllowedExtension(String filename) {
+        List<String> ALLOWED_EXTENSIONS = Arrays.asList("jpg", "jpeg", "png", "gif");
+
+        if (filename == null) {
+            return false;
+        }
+        String extension = filename.substring(filename.lastIndexOf('.') + 1).toLowerCase();
+        return ALLOWED_EXTENSIONS.contains(extension);
     }
 }
