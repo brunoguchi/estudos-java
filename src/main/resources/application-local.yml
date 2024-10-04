@@ -33,3 +33,8 @@ management:
 mongock:
   migration-scan-package:
     - com.exemplo.estudos_java.infra.db.migrations
+
+api:
+  security:
+    token:
+      secret: ${JWT_SECRET:my-secret-key}

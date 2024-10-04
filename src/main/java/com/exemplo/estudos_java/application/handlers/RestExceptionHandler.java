@@ -24,9 +24,9 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(response);
     }
 
-    @ExceptionHandler(Exception.class)
-    private ResponseEntity<RestErrorDto> internalErrorHandler(Exception exception) {
-        var response = new RestErrorDto(HttpStatus.INTERNAL_SERVER_ERROR, exception.getMessage());
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
-    }
+//    @ExceptionHandler(Exception.class)
+//    private ResponseEntity<RestErrorDto> internalErrorHandler(Exception exception) {
+//        var response = new RestErrorDto(HttpStatus.INTERNAL_SERVER_ERROR, exception.getMessage());
+//        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+//    }
 }

@@ -10,11 +10,14 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
 @RestController
+@EnableMethodSecurity
 public class TestController {
 
     @Autowired
@@ -60,5 +63,18 @@ public class TestController {
         var models = handlerService.getAllModels();
         cacheService.cacheModels(models.getFirst().getIdentify(), 60);
         return models.getFirst().getIdentify();
+    }
+
+    //@PreAuthorize("hasAuthority('ROLE_CONSULTANT')")
+    @PreAuthorize("@securityUtil.hasConsultantRole()")
+    @GetMapping("/get-test-cosultant-role")
+    public ResponseEntity<String> getTestConsultantRole() {
+        return ResponseEntity.ok("deu bom no ROLE_CONSULTANT");
+    }
+
+    @PreAuthorize("@securityUtil.hasUserRole()")
+    @GetMapping("/get-test-user-role")
+    public ResponseEntity<String> getTestUserRole() {
+        return ResponseEntity.ok("deu bom ROLE_USER");
     }
 }
