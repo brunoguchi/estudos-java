@@ -9,7 +9,7 @@ import org.springframework.data.mongodb.core.query.Update;
 import static org.springframework.data.mongodb.core.query.Criteria.where;
 import static org.springframework.data.mongodb.core.query.Query.query;
 
-@ChangeUnit(id = "removeStatusFieldFromMongoTests", order = "2", author = "Noguchi")
+@ChangeUnit(id = "removeStatusFieldFromMongoTests", order = "3", author = "Noguchi")
 public class MongoTestsRemoveStatus {
     private final String collectionName = "mongotests";
 

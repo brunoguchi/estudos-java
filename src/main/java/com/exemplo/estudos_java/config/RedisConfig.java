@@ -14,8 +14,8 @@ import java.util.List;
 public class RedisConfig {
 
     @Bean
-    public RedisTemplate<String, List<MongoTests>> redisTemplate(RedisConnectionFactory connectionFactory) {
-        RedisTemplate<String, List<MongoTests>> redisTemplate = new RedisTemplate<>();
+    public RedisTemplate<String, String> redisTemplate(RedisConnectionFactory connectionFactory) {
+        RedisTemplate<String, String> redisTemplate = new RedisTemplate<>();
         redisTemplate.setConnectionFactory(connectionFactory);
 
         redisTemplate.setKeySerializer(new StringRedisSerializer());

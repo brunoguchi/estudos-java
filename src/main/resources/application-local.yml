@@ -22,7 +22,10 @@ management:
   endpoints:
     web:
       exposure:
-        include: health
+        include: health  # Only expose the "health" endpoint
+  endpoint:
+    health:
+      show-details: always  # Show detailed health information
 
 #mongock: // deprecated
 #  change-logs-scan-package: com.exemplo.estudos_java.infra.db.migrations
